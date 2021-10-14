@@ -25,7 +25,7 @@ func (c Command) Run(opts ...Option) error {
 		opt(cmd)
 	}
 
-	fmt.Printf("%s %s\n", color.MagentaString(">"), color.New(color.Bold).Sprintf(string(c)))
+	fmt.Printf("%s %s\n", color.MagentaString(">"), color.New(color.Bold).Sprint(cmd.String()))
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 	return cmd.Run()
