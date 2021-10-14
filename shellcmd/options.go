@@ -29,9 +29,30 @@ func WithEnv(key, def string) Option {
 	}
 }
 
+// WithArgsOption are functions that are passed into WithArgs to modify its behaviour.
+type WithArgsOption func(string) string
+
+func WithArgsValue(val string) WithArgsOption {
+	return func(s string) string {
+		return fmt.Sprintf("%s=%s", s, val)
+	}
+}
+
 // WithArgs returns an Option to specify the args of the command.
-func WithArgs(key, val string) Option {
+func WithArgs(key string, opts ...WithArgsOption) Option {
 	return func(cmd *exec.Cmd) {
-		cmd.Args = append(cmd.Args, fmt.Sprintf("%s=%s", key, val))
+		if key == "" {
+			return
+		}
+
+		arg := key
+		for _, opt := range opts {
+			arg = opt(arg)
+		}
+		if arg == "" {
+			return
+		}
+
+		cmd.Args = append(cmd.Args, arg)
 	}
 }
