@@ -28,3 +28,10 @@ func WithEnv(key, def string) Option {
 		cmd.Env = append(cmd.Env, fmt.Sprintf("%s=%v", key, val))
 	}
 }
+
+// WithArgs returns an Option to specify the args of the command.
+func WithArgs(key, val string) Option {
+	return func(cmd *exec.Cmd) {
+		cmd.Args = append(cmd.Args, fmt.Sprintf("%s=%s", key, val))
+	}
+}
