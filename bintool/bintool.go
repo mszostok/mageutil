@@ -144,7 +144,7 @@ func (t *BinTool) IsInstalled() bool {
 
 func (t *BinTool) checkVersion() bool {
 	args := strings.Split(t.versionCmd, " ")
-	out, err := exec.Command(args[0], args[1:]...).Output()
+	out, err := exec.Command(args[0], args[1:]...).CombinedOutput()
 	if err != nil {
 		return false
 	}
